@@ -1,0 +1,928 @@
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.main,"ax",%progbits
+  18              		.align	2
+  19              		.global	main
+  20              		.code	16
+  21              		.thumb_func
+  22              		.type	main, %function
+  23              	main:
+  24              	.LFB35:
+  25              		.file 1 ".\\main.c"
+   1:.\main.c      **** /*****************************************************************************
+   2:.\main.c      **** * File Name: main.c
+   3:.\main.c      **** *
+   4:.\main.c      **** * Version: 1.0
+   5:.\main.c      **** *
+   6:.\main.c      **** * Description:
+   7:.\main.c      **** * This is the top level application for the PSoC 4 BLE Lab 4.
+   8:.\main.c      **** *
+   9:.\main.c      **** * Hardware Dependency:
+  10:.\main.c      **** * CY8CKIT-042 BLE Pioneer Kit
+  11:.\main.c      **** *
+  12:.\main.c      **** ******************************************************************************
+  13:.\main.c      **** * Copyright (2014), Cypress Semiconductor Corporation.
+  14:.\main.c      **** ******************************************************************************
+  15:.\main.c      **** * This software is owned by Cypress Semiconductor Corporation (Cypress) and is
+  16:.\main.c      **** * protected by and subject to worldwide patent protection (United States and
+  17:.\main.c      **** * foreign), United States copyright laws and international treaty provisions.
+  18:.\main.c      **** * Cypress hereby grants to licensee a personal, non-exclusive, non-transferable
+  19:.\main.c      **** * license to copy, use, modify, create derivative works of, and compile the
+  20:.\main.c      **** * Cypress Source Code and derivative works for the sole purpose of creating
+  21:.\main.c      **** * custom software in support of licensee product to be used only in conjunction
+  22:.\main.c      **** * with a Cypress integrated circuit as specified in the applicable agreement.
+  23:.\main.c      **** * Any reproduction, modification, translation, compilation, or representation of
+  24:.\main.c      **** * this software except as specified above is prohibited without the express
+  25:.\main.c      **** * written permission of Cypress.
+  26:.\main.c      **** *
+  27:.\main.c      **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH
+  28:.\main.c      **** * REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  29:.\main.c      **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  30:.\main.c      **** * Cypress reserves the right to make changes without further notice to the
+  31:.\main.c      **** * materials described herein. Cypress does not assume any liability arising out
+  32:.\main.c      **** * of the application or use of any product or circuit described herein. Cypress
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 2
+
+
+  33:.\main.c      **** * does not authorize its products for use as critical components in life-support
+  34:.\main.c      **** * systems where a malfunction or failure may reasonably be expected to result in
+  35:.\main.c      **** * significant injury to the user. The inclusion of Cypress' product in a life-
+  36:.\main.c      **** * support systems application implies that the manufacturer assumes all risk of
+  37:.\main.c      **** * such use and in doing so indemnifies Cypress against all charges. Use may be
+  38:.\main.c      **** * limited by and subject to the applicable Cypress software license agreement.
+  39:.\main.c      **** *****************************************************************************/
+  40:.\main.c      **** 
+  41:.\main.c      **** 
+  42:.\main.c      **** /*****************************************************************************
+  43:.\main.c      **** * Included headers
+  44:.\main.c      **** *****************************************************************************/
+  45:.\main.c      **** #include <main.h>
+  46:.\main.c      **** #include <BLEApplications.h>
+  47:.\main.c      **** #include "WatchdogTimer.h"
+  48:.\main.c      **** 
+  49:.\main.c      **** /*****************************************************************************
+  50:.\main.c      **** * Function Prototypes
+  51:.\main.c      **** *****************************************************************************/
+  52:.\main.c      **** static void InitializeSystem(void);
+  53:.\main.c      **** static void HandleCapSenseSlider(void);
+  54:.\main.c      **** 
+  55:.\main.c      **** 
+  56:.\main.c      **** /*****************************************************************************
+  57:.\main.c      **** * Public functions
+  58:.\main.c      **** *****************************************************************************/
+  59:.\main.c      **** 
+  60:.\main.c      **** /*******************************************************************************
+  61:.\main.c      **** * Function Name: main
+  62:.\main.c      **** ********************************************************************************
+  63:.\main.c      **** * Summary:
+  64:.\main.c      **** * System entrance point. This calls the initializing function and continuously
+  65:.\main.c      **** * process BLE and CapSense events.
+  66:.\main.c      **** *
+  67:.\main.c      **** * Parameters:
+  68:.\main.c      **** *  void
+  69:.\main.c      **** *
+  70:.\main.c      **** * Return:
+  71:.\main.c      **** *  int
+  72:.\main.c      **** *
+  73:.\main.c      **** *******************************************************************************/
+  74:.\main.c      **** int main()
+  75:.\main.c      **** {
+  26              		.loc 1 75 0
+  27              		.cfi_startproc
+  28 0000 80B5     		push	{r7, lr}
+  29              		.cfi_def_cfa_offset 8
+  30              		.cfi_offset 7, -8
+  31              		.cfi_offset 14, -4
+  32 0002 00AF     		add	r7, sp, #0
+  33              		.cfi_def_cfa_register 7
+  76:.\main.c      **** 	/* This function will initialize the system resources such as BLE and CapSense */
+  77:.\main.c      ****     InitializeSystem();
+  34              		.loc 1 77 0
+  35 0004 FFF7FEFF 		bl	InitializeSystem
+  78:.\main.c      ****     
+  79:.\main.c      ****     CapSense_EnableWidget(CapSense_Sns_ProximitySensor0_0__PROX);
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 3
+
+
+  36              		.loc 1 79 0
+  37 0008 094B     		ldr	r3, .L4
+  38 000a 181C     		mov	r0, r3
+  39 000c FFF7FEFF 		bl	CapSense_EnableWidget
+  40              	.L3:
+  80:.\main.c      **** 	
+  81:.\main.c      ****     for(;;)
+  82:.\main.c      ****     {
+  83:.\main.c      ****         /*Process event callback to handle BLE events. The events generated and 
+  84:.\main.c      **** 		* used for this application are inside the 'CustomEventHandler' routine*/
+  85:.\main.c      ****         CyBle_ProcessEvents();
+  41              		.loc 1 85 0
+  42 0010 FFF7FEFF 		bl	CyBle_ProcessEvents
+  86:.\main.c      **** 		
+  87:.\main.c      **** 		if(TRUE == deviceConnected)
+  43              		.loc 1 87 0
+  44 0014 074B     		ldr	r3, .L4+4
+  45 0016 1B78     		ldrb	r3, [r3]
+  46 0018 012B     		cmp	r3, #1
+  47 001a 08D1     		bne	.L2
+  88:.\main.c      **** 		{
+  89:.\main.c      ****             /* When the Client Characteristic Configuration descriptor (CCCD) is
+  90:.\main.c      ****              * written by Central device for enabling/disabling notifications, 
+  91:.\main.c      ****              * then the same descriptor value has to be explicitly updated in 
+  92:.\main.c      ****              * application so that it reflects the correct value when the 
+  93:.\main.c      ****              * descriptor is read */
+  94:.\main.c      **** 			UpdateNotificationCCCD();
+  48              		.loc 1 94 0
+  49 001c FFF7FEFF 		bl	UpdateNotificationCCCD
+  95:.\main.c      **** 			
+  96:.\main.c      **** 			/* Send CapSense Slider data when respective notification is enabled */
+  97:.\main.c      **** 			if(TRUE == sendCapSenseSliderNotifications)
+  50              		.loc 1 97 0
+  51 0020 054B     		ldr	r3, .L4+8
+  52 0022 1B78     		ldrb	r3, [r3]
+  53 0024 012B     		cmp	r3, #1
+  54 0026 02D1     		bne	.L2
+  98:.\main.c      **** 			{
+  99:.\main.c      **** 				/* Check for CapSense slider swipe and send data accordingly */
+ 100:.\main.c      **** 				HandleCapSenseSlider();
+  55              		.loc 1 100 0
+  56 0028 FFF7FEFF 		bl	HandleCapSenseSlider
+ 101:.\main.c      **** 			}
+ 102:.\main.c      **** 		}
+ 103:.\main.c      ****     }	
+  57              		.loc 1 103 0
+  58 002c F0E7     		b	.L3
+  59              	.L2:
+  60 002e EFE7     		b	.L3
+  61              	.L5:
+  62              		.align	2
+  63              	.L4:
+  64 0030 08020440 		.word	1074004488
+  65 0034 00000000 		.word	deviceConnected
+  66 0038 00000000 		.word	sendCapSenseSliderNotifications
+  67              		.cfi_endproc
+  68              	.LFE35:
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 4
+
+
+  69              		.size	main, .-main
+  70              		.section	.text.InitializeSystem,"ax",%progbits
+  71              		.align	2
+  72              		.code	16
+  73              		.thumb_func
+  74              		.type	InitializeSystem, %function
+  75              	InitializeSystem:
+  76              	.LFB36:
+ 104:.\main.c      ****       if(enterHibernateFlag)
+ 105:.\main.c      ****         {
+ 106:.\main.c      ****             /* Stop the BLE component */
+ 107:.\main.c      ****             CyBle_Stop();
+ 108:.\main.c      ****             
+ 109:.\main.c      ****             /* Enable the Hibernate wakeup functionality */
+ 110:.\main.c      ****             SW2_Switch_ClearInterrupt();
+ 111:.\main.c      ****             Wakeup_ISR_Start();
+ 112:.\main.c      ****             
+ 113:.\main.c      ****             #if (RGB_LED_IN_PROJECT)
+ 114:.\main.c      ****                 /* Turn off Green and Blue LEDs to indicate Hibernate */
+ 115:.\main.c      ****                 Led_Advertising_Green_Write(1);
+ 116:.\main.c      ****                 Led_Connected_Blue_Write(1);
+ 117:.\main.c      ****                 
+ 118:.\main.c      ****                 /* Change the GPIO state to High-Z */
+ 119:.\main.c      ****                 Led_Advertising_Green_SetDriveMode(Led_Advertising_Green_DM_ALG_HIZ);
+ 120:.\main.c      ****                 Led_Connected_Blue_SetDriveMode(Led_Connected_Blue_DM_ALG_HIZ);
+ 121:.\main.c      ****             #endif  /* #if (RGB_LED_IN_PROJECT) */
+ 122:.\main.c      ****             
+ 123:.\main.c      ****             /* Enter hibernate mode */
+ 124:.\main.c      ****             CySysPmHibernate();
+ 125:.\main.c      ****         }
+ 126:.\main.c      **** }
+ 127:.\main.c      **** 
+ 128:.\main.c      **** 
+ 129:.\main.c      **** /*******************************************************************************
+ 130:.\main.c      **** * Function Name: InitializeSystem
+ 131:.\main.c      **** ********************************************************************************
+ 132:.\main.c      **** * Summary:
+ 133:.\main.c      **** * Start the components and initialize system.
+ 134:.\main.c      **** *
+ 135:.\main.c      **** * Parameters:
+ 136:.\main.c      **** *  void
+ 137:.\main.c      **** *
+ 138:.\main.c      **** * Return:
+ 139:.\main.c      **** *  void
+ 140:.\main.c      **** *
+ 141:.\main.c      **** *******************************************************************************/
+ 142:.\main.c      **** void InitializeSystem(void)
+ 143:.\main.c      **** {
+  77              		.loc 1 143 0
+  78              		.cfi_startproc
+  79 0000 80B5     		push	{r7, lr}
+  80              		.cfi_def_cfa_offset 8
+  81              		.cfi_offset 7, -8
+  82              		.cfi_offset 14, -4
+  83 0002 00AF     		add	r7, sp, #0
+  84              		.cfi_def_cfa_register 7
+ 144:.\main.c      **** 	/* Enable global interrupt mask */
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 5
+
+
+ 145:.\main.c      **** 	CyGlobalIntEnable; 
+  85              		.loc 1 145 0
+  86              	@ 145 ".\main.c" 1
+  87 0004 62B6     		CPSIE   i
+  88              	@ 0 "" 2
+ 146:.\main.c      **** 		
+ 147:.\main.c      **** 	/* Start BLE component and register the CustomEventHandler function. This 
+ 148:.\main.c      **** 	 * function exposes the events from BLE component for application use */
+ 149:.\main.c      ****     CyBle_Start(CustomEventHandler);	
+  89              		.loc 1 149 0
+  90              		.code	16
+  91 0006 064B     		ldr	r3, .L7
+  92 0008 181C     		mov	r0, r3
+  93 000a FFF7FEFF 		bl	CyBle_Start
+ 150:.\main.c      ****     
+ 151:.\main.c      **** 	
+ 152:.\main.c      **** 	
+ 153:.\main.c      **** 	/* Initialize CapSense component and initialize baselines*/
+ 154:.\main.c      **** 	CapSense_Start();
+  94              		.loc 1 154 0
+  95 000e FFF7FEFF 		bl	CapSense_Start
+ 155:.\main.c      **** 	CapSense_InitializeAllBaselines();
+  96              		.loc 1 155 0
+  97 0012 FFF7FEFF 		bl	CapSense_InitializeAllBaselines
+ 156:.\main.c      ****     
+ 157:.\main.c      ****     //start watchdog
+ 158:.\main.c      ****     WatchdogTimer_Start();
+  98              		.loc 1 158 0
+  99 0016 FFF7FEFF 		bl	WatchdogTimer_Start
+ 159:.\main.c      **** }
+ 100              		.loc 1 159 0
+ 101 001a BD46     		mov	sp, r7
+ 102              		@ sp needed
+ 103 001c 80BD     		pop	{r7, pc}
+ 104              	.L8:
+ 105 001e C046     		.align	2
+ 106              	.L7:
+ 107 0020 00000000 		.word	CustomEventHandler
+ 108              		.cfi_endproc
+ 109              	.LFE36:
+ 110              		.size	InitializeSystem, .-InitializeSystem
+ 111              		.section	.text.HandleCapSenseSlider,"ax",%progbits
+ 112              		.align	2
+ 113              		.code	16
+ 114              		.thumb_func
+ 115              		.type	HandleCapSenseSlider, %function
+ 116              	HandleCapSenseSlider:
+ 117              	.LFB37:
+ 160:.\main.c      **** 
+ 161:.\main.c      **** 
+ 162:.\main.c      **** /*******************************************************************************
+ 163:.\main.c      **** * Function Name: HandleCapSenseSlider
+ 164:.\main.c      **** ********************************************************************************
+ 165:.\main.c      **** * Summary:
+ 166:.\main.c      **** * This function scans for finger position on CapSense slider, and if the  
+ 167:.\main.c      **** * position is different, triggers separate routine for BLE notification.
+ 168:.\main.c      **** *
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 6
+
+
+ 169:.\main.c      **** * Parameters:
+ 170:.\main.c      **** *  void
+ 171:.\main.c      **** *
+ 172:.\main.c      **** * Return:
+ 173:.\main.c      **** *  void
+ 174:.\main.c      **** *
+ 175:.\main.c      **** *******************************************************************************/
+ 176:.\main.c      **** void HandleCapSenseSlider(void)
+ 177:.\main.c      **** {
+ 118              		.loc 1 177 0
+ 119              		.cfi_startproc
+ 120 0000 80B5     		push	{r7, lr}
+ 121              		.cfi_def_cfa_offset 8
+ 122              		.cfi_offset 7, -8
+ 123              		.cfi_offset 14, -4
+ 124 0002 82B0     		sub	sp, sp, #8
+ 125              		.cfi_def_cfa_offset 16
+ 126 0004 00AF     		add	r7, sp, #0
+ 127              		.cfi_def_cfa_register 7
+ 178:.\main.c      **** 	/* Last read CapSense slider position value */
+ 179:.\main.c      **** 	static uint16 lastPosition;	
+ 180:.\main.c      **** 	
+ 181:.\main.c      **** 	/* Present slider position read by CapSense */
+ 182:.\main.c      **** 	uint16 sliderPosition;
+ 183:.\main.c      **** 		
+ 184:.\main.c      **** 	/* Update CapSense baseline for next reading*/
+ 185:.\main.c      **** 	CapSense_UpdateEnabledBaselines();	
+ 128              		.loc 1 185 0
+ 129 0006 FFF7FEFF 		bl	CapSense_UpdateEnabledBaselines
+ 186:.\main.c      **** 		
+ 187:.\main.c      **** 	/* Scan the slider widget */
+ 188:.\main.c      **** 	CapSense_ScanEnabledWidgets();			
+ 130              		.loc 1 188 0
+ 131 000a FFF7FEFF 		bl	CapSense_ScanEnabledWidgets
+ 189:.\main.c      **** 	
+ 190:.\main.c      **** 	/* Wait for CapSense scanning to be complete. This could take about 5 ms */
+ 191:.\main.c      **** 	while(CapSense_IsBusy());
+ 132              		.loc 1 191 0
+ 133 000e C046     		mov	r8, r8
+ 134              	.L10:
+ 135              		.loc 1 191 0 is_stmt 0 discriminator 1
+ 136 0010 FFF7FEFF 		bl	CapSense_IsBusy
+ 137 0014 031C     		mov	r3, r0
+ 138 0016 002B     		cmp	r3, #0
+ 139 0018 FAD1     		bne	.L10
+ 192:.\main.c      **** 	
+ 193:.\main.c      **** 	/* Read the finger position on the slider */
+ 194:.\main.c      **** 	sliderPosition = CapSense_GetDiffCountData(CapSense_PROXIMITYSENSOR0__PROX);	
+ 140              		.loc 1 194 0 is_stmt 1
+ 141 001a 0020     		mov	r0, #0
+ 142 001c FFF7FEFF 		bl	CapSense_GetDiffCountData
+ 143 0020 031C     		mov	r3, r0
+ 144 0022 1A1C     		mov	r2, r3
+ 145 0024 BB1D     		add	r3, r7, #6
+ 146 0026 1A80     		strh	r2, [r3]
+ 195:.\main.c      **** 
+ 196:.\main.c      **** 	/*If finger is detected on the slider*/
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 7
+
+
+ 197:.\main.c      **** 	if((sliderPosition != NO_FINGER) && (sliderPosition <= SLIDER_MAX_VALUE))
+ 147              		.loc 1 197 0
+ 148 0028 BB1D     		add	r3, r7, #6
+ 149 002a 1A88     		ldrh	r2, [r3]
+ 150 002c 0C4B     		ldr	r3, .L12
+ 151 002e 9A42     		cmp	r2, r3
+ 152 0030 13D0     		beq	.L9
+ 153              		.loc 1 197 0 is_stmt 0 discriminator 1
+ 154 0032 BB1D     		add	r3, r7, #6
+ 155 0034 1B88     		ldrh	r3, [r3]
+ 156 0036 642B     		cmp	r3, #100
+ 157 0038 0FD8     		bhi	.L9
+ 198:.\main.c      **** 	{
+ 199:.\main.c      ****         /* If finger position on the slider is changed then send data as BLE 
+ 200:.\main.c      ****          * notifications */
+ 201:.\main.c      ****         if(sliderPosition != lastPosition)
+ 158              		.loc 1 201 0 is_stmt 1
+ 159 003a 0A4B     		ldr	r3, .L12+4
+ 160 003c 1B88     		ldrh	r3, [r3]
+ 161 003e BA1D     		add	r2, r7, #6
+ 162 0040 1288     		ldrh	r2, [r2]
+ 163 0042 9A42     		cmp	r2, r3
+ 164 0044 09D0     		beq	.L9
+ 202:.\main.c      **** 		{
+ 203:.\main.c      **** 			/* Update global variable with present finger position on slider*/
+ 204:.\main.c      **** 			lastPosition = sliderPosition;
+ 165              		.loc 1 204 0
+ 166 0046 074B     		ldr	r3, .L12+4
+ 167 0048 BA1D     		add	r2, r7, #6
+ 168 004a 1288     		ldrh	r2, [r2]
+ 169 004c 1A80     		strh	r2, [r3]
+ 205:.\main.c      **** 
+ 206:.\main.c      **** 			SendCapSenseNotification((uint8)sliderPosition);
+ 170              		.loc 1 206 0
+ 171 004e BB1D     		add	r3, r7, #6
+ 172 0050 1B88     		ldrh	r3, [r3]
+ 173 0052 DBB2     		uxtb	r3, r3
+ 174 0054 181C     		mov	r0, r3
+ 175 0056 FFF7FEFF 		bl	SendCapSenseNotification
+ 176              	.L9:
+ 207:.\main.c      **** 
+ 208:.\main.c      **** 		}	
+ 209:.\main.c      **** 	}	
+ 210:.\main.c      **** }
+ 177              		.loc 1 210 0
+ 178 005a BD46     		mov	sp, r7
+ 179 005c 02B0     		add	sp, sp, #8
+ 180              		@ sp needed
+ 181 005e 80BD     		pop	{r7, pc}
+ 182              	.L13:
+ 183              		.align	2
+ 184              	.L12:
+ 185 0060 FFFF0000 		.word	65535
+ 186 0064 00000000 		.word	lastPosition.6677
+ 187              		.cfi_endproc
+ 188              	.LFE37:
+ 189              		.size	HandleCapSenseSlider, .-HandleCapSenseSlider
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 8
+
+
+ 190              		.bss
+ 191              		.align	1
+ 192              	lastPosition.6677:
+ 193 0000 0000     		.space	2
+ 194              		.text
+ 195              	.Letext0:
+ 196              		.file 2 ".\\Generated_Source\\PSoC4/cytypes.h"
+ 197              		.file 3 "./BLEApplications.h"
+ 198              		.section	.debug_info,"",%progbits
+ 199              	.Ldebug_info0:
+ 200 0000 1D010000 		.4byte	0x11d
+ 201 0004 0400     		.2byte	0x4
+ 202 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 203 000a 04       		.byte	0x4
+ 204 000b 01       		.uleb128 0x1
+ 205 000c 06010000 		.4byte	.LASF21
+ 206 0010 01       		.byte	0x1
+ 207 0011 97000000 		.4byte	.LASF22
+ 208 0015 AB010000 		.4byte	.LASF23
+ 209 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 210 001d 00000000 		.4byte	0
+ 211 0021 00000000 		.4byte	.Ldebug_line0
+ 212 0025 02       		.uleb128 0x2
+ 213 0026 01       		.byte	0x1
+ 214 0027 06       		.byte	0x6
+ 215 0028 88010000 		.4byte	.LASF0
+ 216 002c 02       		.uleb128 0x2
+ 217 002d 01       		.byte	0x1
+ 218 002e 08       		.byte	0x8
+ 219 002f CD000000 		.4byte	.LASF1
+ 220 0033 02       		.uleb128 0x2
+ 221 0034 02       		.byte	0x2
+ 222 0035 05       		.byte	0x5
+ 223 0036 9A010000 		.4byte	.LASF2
+ 224 003a 02       		.uleb128 0x2
+ 225 003b 02       		.byte	0x2
+ 226 003c 07       		.byte	0x7
+ 227 003d 0E000000 		.4byte	.LASF3
+ 228 0041 02       		.uleb128 0x2
+ 229 0042 04       		.byte	0x4
+ 230 0043 05       		.byte	0x5
+ 231 0044 F0000000 		.4byte	.LASF4
+ 232 0048 02       		.uleb128 0x2
+ 233 0049 04       		.byte	0x4
+ 234 004a 07       		.byte	0x7
+ 235 004b 85000000 		.4byte	.LASF5
+ 236 004f 02       		.uleb128 0x2
+ 237 0050 08       		.byte	0x8
+ 238 0051 05       		.byte	0x5
+ 239 0052 00000000 		.4byte	.LASF6
+ 240 0056 02       		.uleb128 0x2
+ 241 0057 08       		.byte	0x8
+ 242 0058 07       		.byte	0x7
+ 243 0059 A0000000 		.4byte	.LASF7
+ 244 005d 03       		.uleb128 0x3
+ 245 005e 04       		.byte	0x4
+ 246 005f 05       		.byte	0x5
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 9
+
+
+ 247 0060 696E7400 		.ascii	"int\000"
+ 248 0064 02       		.uleb128 0x2
+ 249 0065 04       		.byte	0x4
+ 250 0066 07       		.byte	0x7
+ 251 0067 21000000 		.4byte	.LASF8
+ 252 006b 04       		.uleb128 0x4
+ 253 006c 82010000 		.4byte	.LASF9
+ 254 0070 02       		.byte	0x2
+ 255 0071 A1       		.byte	0xa1
+ 256 0072 2C000000 		.4byte	0x2c
+ 257 0076 04       		.uleb128 0x4
+ 258 0077 A4010000 		.4byte	.LASF10
+ 259 007b 02       		.byte	0x2
+ 260 007c A2       		.byte	0xa2
+ 261 007d 3A000000 		.4byte	0x3a
+ 262 0081 02       		.uleb128 0x2
+ 263 0082 04       		.byte	0x4
+ 264 0083 04       		.byte	0x4
+ 265 0084 94010000 		.4byte	.LASF11
+ 266 0088 02       		.uleb128 0x2
+ 267 0089 08       		.byte	0x8
+ 268 008a 04       		.byte	0x4
+ 269 008b F9000000 		.4byte	.LASF12
+ 270 008f 02       		.uleb128 0x2
+ 271 0090 01       		.byte	0x1
+ 272 0091 08       		.byte	0x8
+ 273 0092 C8000000 		.4byte	.LASF13
+ 274 0096 02       		.uleb128 0x2
+ 275 0097 04       		.byte	0x4
+ 276 0098 07       		.byte	0x7
+ 277 0099 02020000 		.4byte	.LASF14
+ 278 009d 05       		.uleb128 0x5
+ 279 009e DB000000 		.4byte	.LASF24
+ 280 00a2 01       		.byte	0x1
+ 281 00a3 4A       		.byte	0x4a
+ 282 00a4 5D000000 		.4byte	0x5d
+ 283 00a8 00000000 		.4byte	.LFB35
+ 284 00ac 3C000000 		.4byte	.LFE35-.LFB35
+ 285 00b0 01       		.uleb128 0x1
+ 286 00b1 9C       		.byte	0x9c
+ 287 00b2 06       		.uleb128 0x6
+ 288 00b3 B7000000 		.4byte	.LASF25
+ 289 00b7 01       		.byte	0x1
+ 290 00b8 8E       		.byte	0x8e
+ 291 00b9 00000000 		.4byte	.LFB36
+ 292 00bd 24000000 		.4byte	.LFE36-.LFB36
+ 293 00c1 01       		.uleb128 0x1
+ 294 00c2 9C       		.byte	0x9c
+ 295 00c3 07       		.uleb128 0x7
+ 296 00c4 70000000 		.4byte	.LASF26
+ 297 00c8 01       		.byte	0x1
+ 298 00c9 B0       		.byte	0xb0
+ 299 00ca 00000000 		.4byte	.LFB37
+ 300 00ce 68000000 		.4byte	.LFE37-.LFB37
+ 301 00d2 01       		.uleb128 0x1
+ 302 00d3 9C       		.byte	0x9c
+ 303 00d4 F8000000 		.4byte	0xf8
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 10
+
+
+ 304 00d8 08       		.uleb128 0x8
+ 305 00d9 F5010000 		.4byte	.LASF15
+ 306 00dd 01       		.byte	0x1
+ 307 00de B3       		.byte	0xb3
+ 308 00df 76000000 		.4byte	0x76
+ 309 00e3 05       		.uleb128 0x5
+ 310 00e4 03       		.byte	0x3
+ 311 00e5 00000000 		.4byte	lastPosition.6677
+ 312 00e9 08       		.uleb128 0x8
+ 313 00ea 4E000000 		.4byte	.LASF16
+ 314 00ee 01       		.byte	0x1
+ 315 00ef B6       		.byte	0xb6
+ 316 00f0 76000000 		.4byte	0x76
+ 317 00f4 02       		.uleb128 0x2
+ 318 00f5 91       		.byte	0x91
+ 319 00f6 76       		.sleb128 -10
+ 320 00f7 00       		.byte	0
+ 321 00f8 09       		.uleb128 0x9
+ 322 00f9 E0000000 		.4byte	.LASF17
+ 323 00fd 03       		.byte	0x3
+ 324 00fe 56       		.byte	0x56
+ 325 00ff 6B000000 		.4byte	0x6b
+ 326 0103 09       		.uleb128 0x9
+ 327 0104 2E000000 		.4byte	.LASF18
+ 328 0108 03       		.byte	0x3
+ 329 0109 57       		.byte	0x57
+ 330 010a 6B000000 		.4byte	0x6b
+ 331 010e 09       		.uleb128 0x9
+ 332 010f 5D000000 		.4byte	.LASF19
+ 333 0113 03       		.byte	0x3
+ 334 0114 68       		.byte	0x68
+ 335 0115 19010000 		.4byte	0x119
+ 336 0119 02       		.uleb128 0x2
+ 337 011a 01       		.byte	0x1
+ 338 011b 02       		.byte	0x2
+ 339 011c 00010000 		.4byte	.LASF20
+ 340 0120 00       		.byte	0
+ 341              		.section	.debug_abbrev,"",%progbits
+ 342              	.Ldebug_abbrev0:
+ 343 0000 01       		.uleb128 0x1
+ 344 0001 11       		.uleb128 0x11
+ 345 0002 01       		.byte	0x1
+ 346 0003 25       		.uleb128 0x25
+ 347 0004 0E       		.uleb128 0xe
+ 348 0005 13       		.uleb128 0x13
+ 349 0006 0B       		.uleb128 0xb
+ 350 0007 03       		.uleb128 0x3
+ 351 0008 0E       		.uleb128 0xe
+ 352 0009 1B       		.uleb128 0x1b
+ 353 000a 0E       		.uleb128 0xe
+ 354 000b 55       		.uleb128 0x55
+ 355 000c 17       		.uleb128 0x17
+ 356 000d 11       		.uleb128 0x11
+ 357 000e 01       		.uleb128 0x1
+ 358 000f 10       		.uleb128 0x10
+ 359 0010 17       		.uleb128 0x17
+ 360 0011 00       		.byte	0
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 11
+
+
+ 361 0012 00       		.byte	0
+ 362 0013 02       		.uleb128 0x2
+ 363 0014 24       		.uleb128 0x24
+ 364 0015 00       		.byte	0
+ 365 0016 0B       		.uleb128 0xb
+ 366 0017 0B       		.uleb128 0xb
+ 367 0018 3E       		.uleb128 0x3e
+ 368 0019 0B       		.uleb128 0xb
+ 369 001a 03       		.uleb128 0x3
+ 370 001b 0E       		.uleb128 0xe
+ 371 001c 00       		.byte	0
+ 372 001d 00       		.byte	0
+ 373 001e 03       		.uleb128 0x3
+ 374 001f 24       		.uleb128 0x24
+ 375 0020 00       		.byte	0
+ 376 0021 0B       		.uleb128 0xb
+ 377 0022 0B       		.uleb128 0xb
+ 378 0023 3E       		.uleb128 0x3e
+ 379 0024 0B       		.uleb128 0xb
+ 380 0025 03       		.uleb128 0x3
+ 381 0026 08       		.uleb128 0x8
+ 382 0027 00       		.byte	0
+ 383 0028 00       		.byte	0
+ 384 0029 04       		.uleb128 0x4
+ 385 002a 16       		.uleb128 0x16
+ 386 002b 00       		.byte	0
+ 387 002c 03       		.uleb128 0x3
+ 388 002d 0E       		.uleb128 0xe
+ 389 002e 3A       		.uleb128 0x3a
+ 390 002f 0B       		.uleb128 0xb
+ 391 0030 3B       		.uleb128 0x3b
+ 392 0031 0B       		.uleb128 0xb
+ 393 0032 49       		.uleb128 0x49
+ 394 0033 13       		.uleb128 0x13
+ 395 0034 00       		.byte	0
+ 396 0035 00       		.byte	0
+ 397 0036 05       		.uleb128 0x5
+ 398 0037 2E       		.uleb128 0x2e
+ 399 0038 00       		.byte	0
+ 400 0039 3F       		.uleb128 0x3f
+ 401 003a 19       		.uleb128 0x19
+ 402 003b 03       		.uleb128 0x3
+ 403 003c 0E       		.uleb128 0xe
+ 404 003d 3A       		.uleb128 0x3a
+ 405 003e 0B       		.uleb128 0xb
+ 406 003f 3B       		.uleb128 0x3b
+ 407 0040 0B       		.uleb128 0xb
+ 408 0041 49       		.uleb128 0x49
+ 409 0042 13       		.uleb128 0x13
+ 410 0043 11       		.uleb128 0x11
+ 411 0044 01       		.uleb128 0x1
+ 412 0045 12       		.uleb128 0x12
+ 413 0046 06       		.uleb128 0x6
+ 414 0047 40       		.uleb128 0x40
+ 415 0048 18       		.uleb128 0x18
+ 416 0049 9642     		.uleb128 0x2116
+ 417 004b 19       		.uleb128 0x19
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 12
+
+
+ 418 004c 00       		.byte	0
+ 419 004d 00       		.byte	0
+ 420 004e 06       		.uleb128 0x6
+ 421 004f 2E       		.uleb128 0x2e
+ 422 0050 00       		.byte	0
+ 423 0051 03       		.uleb128 0x3
+ 424 0052 0E       		.uleb128 0xe
+ 425 0053 3A       		.uleb128 0x3a
+ 426 0054 0B       		.uleb128 0xb
+ 427 0055 3B       		.uleb128 0x3b
+ 428 0056 0B       		.uleb128 0xb
+ 429 0057 27       		.uleb128 0x27
+ 430 0058 19       		.uleb128 0x19
+ 431 0059 11       		.uleb128 0x11
+ 432 005a 01       		.uleb128 0x1
+ 433 005b 12       		.uleb128 0x12
+ 434 005c 06       		.uleb128 0x6
+ 435 005d 40       		.uleb128 0x40
+ 436 005e 18       		.uleb128 0x18
+ 437 005f 9642     		.uleb128 0x2116
+ 438 0061 19       		.uleb128 0x19
+ 439 0062 00       		.byte	0
+ 440 0063 00       		.byte	0
+ 441 0064 07       		.uleb128 0x7
+ 442 0065 2E       		.uleb128 0x2e
+ 443 0066 01       		.byte	0x1
+ 444 0067 03       		.uleb128 0x3
+ 445 0068 0E       		.uleb128 0xe
+ 446 0069 3A       		.uleb128 0x3a
+ 447 006a 0B       		.uleb128 0xb
+ 448 006b 3B       		.uleb128 0x3b
+ 449 006c 0B       		.uleb128 0xb
+ 450 006d 27       		.uleb128 0x27
+ 451 006e 19       		.uleb128 0x19
+ 452 006f 11       		.uleb128 0x11
+ 453 0070 01       		.uleb128 0x1
+ 454 0071 12       		.uleb128 0x12
+ 455 0072 06       		.uleb128 0x6
+ 456 0073 40       		.uleb128 0x40
+ 457 0074 18       		.uleb128 0x18
+ 458 0075 9642     		.uleb128 0x2116
+ 459 0077 19       		.uleb128 0x19
+ 460 0078 01       		.uleb128 0x1
+ 461 0079 13       		.uleb128 0x13
+ 462 007a 00       		.byte	0
+ 463 007b 00       		.byte	0
+ 464 007c 08       		.uleb128 0x8
+ 465 007d 34       		.uleb128 0x34
+ 466 007e 00       		.byte	0
+ 467 007f 03       		.uleb128 0x3
+ 468 0080 0E       		.uleb128 0xe
+ 469 0081 3A       		.uleb128 0x3a
+ 470 0082 0B       		.uleb128 0xb
+ 471 0083 3B       		.uleb128 0x3b
+ 472 0084 0B       		.uleb128 0xb
+ 473 0085 49       		.uleb128 0x49
+ 474 0086 13       		.uleb128 0x13
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 13
+
+
+ 475 0087 02       		.uleb128 0x2
+ 476 0088 18       		.uleb128 0x18
+ 477 0089 00       		.byte	0
+ 478 008a 00       		.byte	0
+ 479 008b 09       		.uleb128 0x9
+ 480 008c 34       		.uleb128 0x34
+ 481 008d 00       		.byte	0
+ 482 008e 03       		.uleb128 0x3
+ 483 008f 0E       		.uleb128 0xe
+ 484 0090 3A       		.uleb128 0x3a
+ 485 0091 0B       		.uleb128 0xb
+ 486 0092 3B       		.uleb128 0x3b
+ 487 0093 0B       		.uleb128 0xb
+ 488 0094 49       		.uleb128 0x49
+ 489 0095 13       		.uleb128 0x13
+ 490 0096 3F       		.uleb128 0x3f
+ 491 0097 19       		.uleb128 0x19
+ 492 0098 3C       		.uleb128 0x3c
+ 493 0099 19       		.uleb128 0x19
+ 494 009a 00       		.byte	0
+ 495 009b 00       		.byte	0
+ 496 009c 00       		.byte	0
+ 497              		.section	.debug_aranges,"",%progbits
+ 498 0000 2C000000 		.4byte	0x2c
+ 499 0004 0200     		.2byte	0x2
+ 500 0006 00000000 		.4byte	.Ldebug_info0
+ 501 000a 04       		.byte	0x4
+ 502 000b 00       		.byte	0
+ 503 000c 0000     		.2byte	0
+ 504 000e 0000     		.2byte	0
+ 505 0010 00000000 		.4byte	.LFB35
+ 506 0014 3C000000 		.4byte	.LFE35-.LFB35
+ 507 0018 00000000 		.4byte	.LFB36
+ 508 001c 24000000 		.4byte	.LFE36-.LFB36
+ 509 0020 00000000 		.4byte	.LFB37
+ 510 0024 68000000 		.4byte	.LFE37-.LFB37
+ 511 0028 00000000 		.4byte	0
+ 512 002c 00000000 		.4byte	0
+ 513              		.section	.debug_ranges,"",%progbits
+ 514              	.Ldebug_ranges0:
+ 515 0000 00000000 		.4byte	.LFB35
+ 516 0004 3C000000 		.4byte	.LFE35
+ 517 0008 00000000 		.4byte	.LFB36
+ 518 000c 24000000 		.4byte	.LFE36
+ 519 0010 00000000 		.4byte	.LFB37
+ 520 0014 68000000 		.4byte	.LFE37
+ 521 0018 00000000 		.4byte	0
+ 522 001c 00000000 		.4byte	0
+ 523              		.section	.debug_line,"",%progbits
+ 524              	.Ldebug_line0:
+ 525 0000 B7000000 		.section	.debug_str,"MS",%progbits,1
+ 525      02005C00 
+ 525      00000201 
+ 525      FB0E0D00 
+ 525      01010101 
+ 526              	.LASF6:
+ 527 0000 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 14
+
+
+ 527      206C6F6E 
+ 527      6720696E 
+ 527      7400
+ 528              	.LASF3:
+ 529 000e 73686F72 		.ascii	"short unsigned int\000"
+ 529      7420756E 
+ 529      7369676E 
+ 529      65642069 
+ 529      6E7400
+ 530              	.LASF8:
+ 531 0021 756E7369 		.ascii	"unsigned int\000"
+ 531      676E6564 
+ 531      20696E74 
+ 531      00
+ 532              	.LASF18:
+ 533 002e 73656E64 		.ascii	"sendCapSenseSliderNotifications\000"
+ 533      43617053 
+ 533      656E7365 
+ 533      536C6964 
+ 533      65724E6F 
+ 534              	.LASF16:
+ 535 004e 736C6964 		.ascii	"sliderPosition\000"
+ 535      6572506F 
+ 535      73697469 
+ 535      6F6E00
+ 536              	.LASF19:
+ 537 005d 656E7465 		.ascii	"enterHibernateFlag\000"
+ 537      72486962 
+ 537      65726E61 
+ 537      7465466C 
+ 537      616700
+ 538              	.LASF26:
+ 539 0070 48616E64 		.ascii	"HandleCapSenseSlider\000"
+ 539      6C654361 
+ 539      7053656E 
+ 539      7365536C 
+ 539      69646572 
+ 540              	.LASF5:
+ 541 0085 6C6F6E67 		.ascii	"long unsigned int\000"
+ 541      20756E73 
+ 541      69676E65 
+ 541      6420696E 
+ 541      7400
+ 542              	.LASF22:
+ 543 0097 2E5C6D61 		.ascii	".\\main.c\000"
+ 543      696E2E63 
+ 543      00
+ 544              	.LASF7:
+ 545 00a0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 545      206C6F6E 
+ 545      6720756E 
+ 545      7369676E 
+ 545      65642069 
+ 546              	.LASF25:
+ 547 00b7 496E6974 		.ascii	"InitializeSystem\000"
+ 547      69616C69 
+ 547      7A655379 
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 15
+
+
+ 547      7374656D 
+ 547      00
+ 548              	.LASF13:
+ 549 00c8 63686172 		.ascii	"char\000"
+ 549      00
+ 550              	.LASF1:
+ 551 00cd 756E7369 		.ascii	"unsigned char\000"
+ 551      676E6564 
+ 551      20636861 
+ 551      7200
+ 552              	.LASF24:
+ 553 00db 6D61696E 		.ascii	"main\000"
+ 553      00
+ 554              	.LASF17:
+ 555 00e0 64657669 		.ascii	"deviceConnected\000"
+ 555      6365436F 
+ 555      6E6E6563 
+ 555      74656400 
+ 556              	.LASF4:
+ 557 00f0 6C6F6E67 		.ascii	"long int\000"
+ 557      20696E74 
+ 557      00
+ 558              	.LASF12:
+ 559 00f9 646F7562 		.ascii	"double\000"
+ 559      6C6500
+ 560              	.LASF20:
+ 561 0100 5F426F6F 		.ascii	"_Bool\000"
+ 561      6C00
+ 562              	.LASF21:
+ 563 0106 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 563      4320342E 
+ 563      382E3420 
+ 563      32303134 
+ 563      30353236 
+ 564 0139 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m0 -mthumb -g -O"
+ 564      20726576 
+ 564      6973696F 
+ 564      6E203231 
+ 564      31333538 
+ 565 016c 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 565      66756E63 
+ 565      74696F6E 
+ 565      2D736563 
+ 565      74696F6E 
+ 566              	.LASF9:
+ 567 0182 75696E74 		.ascii	"uint8\000"
+ 567      3800
+ 568              	.LASF0:
+ 569 0188 7369676E 		.ascii	"signed char\000"
+ 569      65642063 
+ 569      68617200 
+ 570              	.LASF11:
+ 571 0194 666C6F61 		.ascii	"float\000"
+ 571      7400
+ 572              	.LASF2:
+ 573 019a 73686F72 		.ascii	"short int\000"
+ 573      7420696E 
+ARM GAS  C:\Users\Zachary\AppData\Local\Temp\cc58FQKa.s 			page 16
+
+
+ 573      7400
+ 574              	.LASF10:
+ 575 01a4 75696E74 		.ascii	"uint16\000"
+ 575      313600
+ 576              	.LASF23:
+ 577 01ab 433A5C55 		.ascii	"C:\\Users\\Zachary\\Desktop\\embedded\\lab 4 copy Q"
+ 577      73657273 
+ 577      5C5A6163 
+ 577      68617279 
+ 577      5C446573 
+ 578 01d9 325C424C 		.ascii	"2\\BLE Lab 4\\BLE Lab 4.cydsn\000"
+ 578      45204C61 
+ 578      6220345C 
+ 578      424C4520 
+ 578      4C616220 
+ 579              	.LASF15:
+ 580 01f5 6C617374 		.ascii	"lastPosition\000"
+ 580      506F7369 
+ 580      74696F6E 
+ 580      00
+ 581              	.LASF14:
+ 582 0202 73697A65 		.ascii	"sizetype\000"
+ 582      74797065 
+ 582      00
+ 583              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br
